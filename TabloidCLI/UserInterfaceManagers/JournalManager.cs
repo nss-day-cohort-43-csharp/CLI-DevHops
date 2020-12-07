@@ -21,11 +21,33 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             Console.WriteLine("Journal Menu");
             Console.WriteLine(" 1) List Journals");
-            Console.WriteLine(" 2) Journal Details");
-            Console.WriteLine(" 3) Add Journal");
-            Console.WriteLine(" 4) Edit Journal");
-            Console.WriteLine(" 5) Remove Journal");
+            //Console.WriteLine(" 2) Journal Details");
+            //Console.WriteLine(" 3) Add Journal");
+            //Console.WriteLine(" 4) Edit Journal");
+           // Console.WriteLine(" 5) Remove Journal");
             Console.WriteLine(" 0) Go Back");
+
+            Console.Write("> ");
+            string choice = Console.ReadLine();
+
+            switch(choice)
+            {
+                case "1":
+                    List();
+                    return this;
+
+                case "0":
+                    return _parentUI;
+                default:
+                    Console.WriteLine("Invalid Selection");
+                    return this;
+            }
         }
+
+        private void List()
+        {
+            List<Journal> journals = _journalRepository.GetAll();
+            journals.ForEach(j => Console.WriteLine($"{j.Title} - {j.Content} - {j.CreateDateTime}"));
+            }
     }
 }
