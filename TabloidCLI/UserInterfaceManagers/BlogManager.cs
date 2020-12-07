@@ -93,13 +93,37 @@ namespace TabloidCLI.UserInterfaceManagers
         // deletes a user selected blog
         private void Remove()
         {
-            // display all the blogs
-            Console.WriteLine("Choose a blog to delete");
+            // get all of the blogs to list      
             List<Blog> blogs = _blogRepository.GetAll();
 
-            foreach(Blog blog in blogs)
+            // declare and initialize the id
+            int id = 0;
+
+            // loop until the user makes a valid selection
+            while(true)
             {
-                Console.WriteLine($"{blog.Id}) {blog.Title}");
+                // list all of the blogs
+                Console.WriteLine("Choose a blog to delete");
+                for (int i = 1; i <= blogs.Count; i++)
+                {
+                    Console.WriteLine($"{i}) {blogs[i - 1]}");
+                }
+
+                // read the users selection
+                Console.Write("> ");
+                try
+                {
+                    id = blogs[Int32.Parse(Console.ReadLine()) - 1].Id;
+                    break;
+                }
+                // let the user know if what they entered does not work
+                catch 
+                {
+                    Console.WriteLine("Invalid Selection");
+                }
+
+                // delete the selected blog
+                _blogRepository.Delete(id);
             }
         }
     }
