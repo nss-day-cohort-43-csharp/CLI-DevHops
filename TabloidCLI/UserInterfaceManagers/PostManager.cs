@@ -88,9 +88,19 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.Write("Publication date (YYYY-MM-DD): ");
                 try
                 {
-                    //Converts user input to DateTime type
-                    post.PublishDateTime = Convert.ToDateTime(Console.ReadLine());
-                    break;
+                    DateTime input = Convert.ToDateTime(Console.ReadLine());
+                    DateTime limit = new DateTime(1753, 1, 1);
+                    //Check if date is within SQL limits and not in the future
+                    if (input.Date > limit.Date && input.Date < DateTime.Now)
+                    {
+                        //Converts user input to DateTime type
+                        post.PublishDateTime = input;
+                        break;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
                 }
                 catch
                 {
