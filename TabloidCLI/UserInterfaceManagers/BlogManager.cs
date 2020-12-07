@@ -19,7 +19,7 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             _parentUI = parentUI;
             _connectionString = connectionString;
-            _blogRepository = new BlogRepository(connectionString);
+            _blogRepository = new BlogRepository(_connectionString);
         }
 
         // excute code when returned
@@ -32,16 +32,17 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("0) Back");
 
             //read user entry
+            Console.Write("> ");
             string selection = Console.ReadLine();
 
             // invoke the selected method
             switch(selection)
             {
                 case "1":
-                    List(_blogRepository);
+                    List();
                     return this;
                 case "2":
-                    Add(_blogRepository);
+                    Add();
                     return this;
                 case "0":
                     return _parentUI;
@@ -53,10 +54,10 @@ namespace TabloidCLI.UserInterfaceManagers
         }
 
         // List all of the blogs
-        private static void List(BlogRepository blogRepo)
+        private void List()
         {
             // get all of the blogs from the databse
-            List<Blog> blogs = blogRepo.GetAll();
+            List<Blog> blogs = _blogRepository.GetAll();
 
             // write the title and url of each
             foreach(Blog blog in blogs)
@@ -67,7 +68,7 @@ namespace TabloidCLI.UserInterfaceManagers
         }
 
         // add a user given blog
-        private static void Add(BlogRepository blogRepo)
+        private void Add()
         {
             // read the user entered title
             Console.Write("Title: ");
@@ -85,7 +86,7 @@ namespace TabloidCLI.UserInterfaceManagers
             };
 
             // invoke the blogRepo inster method
-            blogRepo.Insert(blog);
+            _blogRepository.Insert(blog);
         }
     }
 }
