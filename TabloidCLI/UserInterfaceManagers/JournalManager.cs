@@ -38,6 +38,7 @@ namespace TabloidCLI.UserInterfaceManagers
                     List(); 
                     return this;
                 case "2":
+                    //Add a Jounral entry 
                     Add();
                     return this;
                 case "0":
@@ -71,6 +72,7 @@ namespace TabloidCLI.UserInterfaceManagers
                     Journal journal = new Journal();
 
                     Console.Write("Title: ");
+                    //Check for a vaild title
                     journal.Title = Console.ReadLine();
                     if (journal.Title == "")
                     {
@@ -79,24 +81,29 @@ namespace TabloidCLI.UserInterfaceManagers
 
                     Console.Write("Creation date (YYYY-MM-DD): ");
                     journal.CreateDateTime = Convert.ToDateTime(Console.ReadLine());
+                    //Check for a vaild date
                     if (journal.CreateDateTime == null)
                     {
                         throw new Exception();
                     }
+
                     Console.Write("Content: ");
                     journal.Content = Console.ReadLine();
+                    //Check for a vaild content
                     if (journal.Title == ""|| journal.Content == "" || journal.CreateDateTime == null)
                     {
                         throw new Exception();
                     }
+
+                    //all validation passed addand break out of while loop
+                    _journalRepository.Insert(journal);
+                    break;
                 }
                 catch
                 {
-                    Console.WriteLine("Please enter valid information");
+                    Console.WriteLine("Please enter valid information\n");
                 }
             }
-
-           // _journalRepository.Insert(journal);
         }
     }
 }
