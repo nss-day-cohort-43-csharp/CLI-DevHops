@@ -77,13 +77,18 @@ namespace TabloidCLI.Repositories
             }
         }
 
+        //Adds a post to the database
         public void Insert(Post post)
         {
+            //Creates a connection that closes after using
             using (SqlConnection conn = Connection)
             {
+                //Opens connection
                 conn.Open();
+                //Creates a command that closes after using
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+                    //Command given SQL string to execute with parameters that inherit from brought in post
                     cmd.CommandText = @"INSERT INTO Post (Title, URL, PublishDateTime, AuthorId, BlogId)
                                         VALUES (@title, @url, @pubDate, @aId, @bId)";
                     cmd.Parameters.AddWithValue("@title", post.Title);
@@ -92,6 +97,7 @@ namespace TabloidCLI.Repositories
                     cmd.Parameters.AddWithValue("@aId", post.Author);
                     cmd.Parameters.AddWithValue("@bId", post.Blog);
 
+                    //Executes command and returns nothing
                     cmd.ExecuteNonQuery();
                 }
             }

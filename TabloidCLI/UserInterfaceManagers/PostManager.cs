@@ -8,10 +8,12 @@ namespace TabloidCLI.UserInterfaceManagers
 {
     class PostManager : IUserInterfaceManager
     {
+        //Declares fields
         private readonly IUserInterfaceManager _parentUI;
         private PostRepository _postRepository;
         private string _connectionString;
 
+        //Initializes fields upon creation of a PostManager instance
         public PostManager(IUserInterfaceManager parentUI, string connectionString)
         {
             _parentUI = parentUI;
@@ -19,6 +21,7 @@ namespace TabloidCLI.UserInterfaceManagers
             _connectionString = connectionString;
         }
 
+        //Creates menu for posts and performs given case
         public IUserInterfaceManager Execute()
         {
             Console.WriteLine("Post Menu");
@@ -51,6 +54,7 @@ namespace TabloidCLI.UserInterfaceManagers
                     return this;
             }
         }
+        //Takes in user input for titel, url, date, author, and blog and then runs the insert method on the post repo
         private void Add()
         {
             Console.WriteLine("New Post");
@@ -67,6 +71,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.Write("Publication date (YYYY-MM-DD): ");
                 try
                 {
+                    //Converts user input to DateTime type
                     post.PublishDateTime = Convert.ToDateTime(Console.ReadLine());
                     break;
                 }
@@ -76,9 +81,12 @@ namespace TabloidCLI.UserInterfaceManagers
                 }
             }
 
+            //Creates a new author repo instance
             AuthorRepository authorRepo = new AuthorRepository(_connectionString);
+            //Creates list of all authors in database
             List<Author> authors = authorRepo.GetAll();
 
+            //User chooses author for post from the presented list of all authors
             while (true)
             {
                 Console.WriteLine("Please choose an author");
@@ -102,9 +110,12 @@ namespace TabloidCLI.UserInterfaceManagers
                 }
             }
 
+            //Creates a new blog repo instance
             BlogRepository blogRepo = new BlogRepository(_connectionString);
+            //Creates list of all blogs in database
             List<Blog> blogs = blogRepo.GetAll();
 
+            //User chooses blog for post from the presented list of all blogs
             while (true)
             {
                 Console.WriteLine("Please choose a blog");
