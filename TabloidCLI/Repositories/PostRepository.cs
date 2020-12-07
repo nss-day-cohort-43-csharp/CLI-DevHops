@@ -94,8 +94,8 @@ namespace TabloidCLI.Repositories
                     cmd.Parameters.AddWithValue("@title", post.Title);
                     cmd.Parameters.AddWithValue("@url", post.Url);
                     cmd.Parameters.AddWithValue("@pubDate", post.PublishDateTime);
-                    cmd.Parameters.AddWithValue("@aId", post.Author);
-                    cmd.Parameters.AddWithValue("@bId", post.Blog);
+                    cmd.Parameters.AddWithValue("@aId", post.Author.Id);
+                    cmd.Parameters.AddWithValue("@bId", post.Blog.Id);
 
                     //Executes command and returns nothing
                     cmd.ExecuteNonQuery();
