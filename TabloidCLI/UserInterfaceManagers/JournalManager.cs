@@ -82,11 +82,17 @@ namespace TabloidCLI.UserInterfaceManagers
             {
 
                 Console.Write("Creation date (YYYY-MM-DD): ");
+
                 //check for valid date
                 try
                 {
-                    journal.CreateDateTime = Convert.ToDateTime(Console.ReadLine());
-                    break;
+                    DateTime input = Convert.ToDateTime(Console.ReadLine());
+                    DateTime limit = new DateTime(1753, 1, 1);
+                    if (input.Date > limit.Date && input.Date < DateTime.Now)
+                    {
+                        journal.CreateDateTime = input;
+                        break;
+                    }
                 }
                 catch
                 {
