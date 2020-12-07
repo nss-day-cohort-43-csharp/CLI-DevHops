@@ -7,9 +7,9 @@ namespace TabloidCLI
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(@"***************************
-    Welcome to Tabloid!
-***************************");
+            Console.WriteLine("***************************");
+            Console.WriteLine("    Welcome to Tabloid!    ");
+            Console.WriteLine("***************************");
             // MainMenuManager implements the IUserInterfaceManager interface
             IUserInterfaceManager ui = new MainMenuManager();
             while (ui != null)
