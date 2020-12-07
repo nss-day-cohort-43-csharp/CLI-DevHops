@@ -24,7 +24,7 @@ namespace TabloidCLI.Repositories
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
                     // create the sql command
-                    cmd.CommandText = @"SELECT Title, URL
+                    cmd.CommandText = @"SELECT Id, Title, URL
                                         From Blog";
 
                     // execute reader and store the returned reader
@@ -37,12 +37,14 @@ namespace TabloidCLI.Repositories
                     while(reader.Read())
                     {
                         // get the values
+                        int id = reader.GetInt32(reader.GetOrdinal("Id"));
                         string title = reader.GetString(reader.GetOrdinal("Title"));
                         string url = reader.GetString(reader.GetOrdinal("URL"));
 
                         // create a new blog object
                         Blog blog = new Blog()
                         {
+                            Id = id,
                             Title = title,
                             Url = url
                         };
