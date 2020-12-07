@@ -24,10 +24,7 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             Console.WriteLine("Journal Menu");
             Console.WriteLine(" 1) List Journals");
-            //Console.WriteLine(" 2) Journal Details");
-            //Console.WriteLine(" 3) Add Journal");
-            //Console.WriteLine(" 4) Edit Journal");
-           // Console.WriteLine(" 5) Remove Journal");
+            Console.WriteLine(" 2) Add Journal");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -40,7 +37,8 @@ namespace TabloidCLI.UserInterfaceManagers
                     //Show all Jornal entries
                     List(); 
                     return this;
-                case "3":
+                case "2":
+                    Add();
                     return this;
                 case "0":
                     //Return to preivous menu
@@ -61,6 +59,44 @@ namespace TabloidCLI.UserInterfaceManagers
                 Console.WriteLine($"Content: {journal.Content}");
                 Console.WriteLine($"");
             }
+        }
+
+        private void Add()
+        {
+            while (true)
+            {
+                try
+                {
+                    Console.WriteLine("New Journal");
+                    Journal journal = new Journal();
+
+                    Console.Write("Title: ");
+                    journal.Title = Console.ReadLine();
+                    if (journal.Title == "")
+                    {
+                        throw new Exception();
+                    }
+
+                    Console.Write("Creation date (YYYY-MM-DD): ");
+                    journal.CreateDateTime = Convert.ToDateTime(Console.ReadLine());
+                    if (journal.CreateDateTime == null)
+                    {
+                        throw new Exception();
+                    }
+                    Console.Write("Content: ");
+                    journal.Content = Console.ReadLine();
+                    if (journal.Title == ""|| journal.Content == "" || journal.CreateDateTime == null)
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Please enter valid information");
+                }
             }
+
+           // _journalRepository.Insert(journal);
+        }
     }
 }
