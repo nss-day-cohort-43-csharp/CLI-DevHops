@@ -59,12 +59,29 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             Console.WriteLine("New Post");
             Post post = new Post();
+            string userResponse;
+            
+            while (true)
+            {
+                Console.Write("Title: ");
+                userResponse = Console.ReadLine();
+                if (userResponse != "")
+                {
+                    post.Title = userResponse;
+                    break;
+                }
+            }
 
-            Console.Write("Title: ");
-            post.Title = Console.ReadLine();
-
-            Console.Write("URL: ");
-            post.Url = Console.ReadLine();
+            while (true)
+            {
+                Console.Write("URL: ");
+                userResponse = Console.ReadLine();
+                if (userResponse != "")
+                {
+                    post.Url = userResponse;
+                    break;
+                }
+            }
 
             while (true)
             {
