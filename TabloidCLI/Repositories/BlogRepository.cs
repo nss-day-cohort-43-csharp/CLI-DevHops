@@ -25,7 +25,7 @@ namespace TabloidCLI.Repositories
                 {
                     cmd.CommandText = @"INSERT INTO Blog (Title, URL)
                                         VALUES (@title, @url)";
-                    cmd.Parameters.AddWithValue("@ititle", blog.Title);
+                    cmd.Parameters.AddWithValue("@title", blog.Title);
                     cmd.Parameters.AddWithValue("@url", blog.Url);
 
                     cmd.ExecuteNonQuery();
