@@ -41,5 +41,10 @@ namespace TabloidCLI
                 }
             }
         }
+
+        public void Insert (Journal journal)
+        {
+            using (SqlConnection)
+        }
     }
 }
