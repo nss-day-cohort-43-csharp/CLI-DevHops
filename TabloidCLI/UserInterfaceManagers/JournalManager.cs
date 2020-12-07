@@ -24,6 +24,7 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             Console.WriteLine("Journal Menu");
             Console.WriteLine(" 1) List Journals");
+            Console.WriteLine(" 2) Add Journal");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -36,7 +37,10 @@ namespace TabloidCLI.UserInterfaceManagers
                     //Show all Jornal entries
                     List(); 
                     return this;
-
+                case "2":
+                    //Add a Jounral entry 
+                    Add();
+                    return this;
                 case "0":
                     //Return to preivous menu
                     return _parentUI;
@@ -49,7 +53,66 @@ namespace TabloidCLI.UserInterfaceManagers
         private void List()
         {
             List<Journal> journals = _journalRepository.GetAll();
-            journals.ForEach(j => Console.WriteLine($"{j.Title}"));
+            foreach (Journal journal in journals)
+            {
+                Console.WriteLine($"Title: {journal.Title}");
+                Console.WriteLine($"Creation Date: {journal.CreateDateTime}");
+                Console.WriteLine($"Content: {journal.Content}");
+                Console.WriteLine($"");
             }
+        }
+
+        private void Add()
+        {
+           Console.WriteLine("New Journal");
+           Journal journal = new Journal();
+
+            while(true)
+            {
+                Console.Write("Title: ");
+                //Check for a vaild title
+                journal.Title = Console.ReadLine();
+                if (journal.Title != "")
+                {
+                    break;
+                }
+            }
+
+            while(true)
+            {
+
+                Console.Write("Creation date (YYYY-MM-DD): ");
+
+                //check for valid date
+                try
+                {
+                    DateTime input = Convert.ToDateTime(Console.ReadLine());
+                    DateTime limit = new DateTime(1753, 1, 1);
+                    if (input.Date > limit.Date && input.Date < DateTime.Now)
+                    {
+                        journal.CreateDateTime = input;
+                        break;
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid Date");
+                }
+            }
+
+            while(true)
+            {
+                Console.Write("Content: ");
+                journal.Content = Console.ReadLine();
+                //Check for a vaild content
+                if (journal.Content != "" )
+                {
+                    break;
+                }
+            }
+
+            //all validation passed addand break out of while loop
+            _journalRepository.Insert(journal);
+        }
     }
 }
