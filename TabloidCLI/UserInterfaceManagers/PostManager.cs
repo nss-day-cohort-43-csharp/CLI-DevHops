@@ -36,7 +36,7 @@ namespace TabloidCLI.UserInterfaceManagers
             switch (choice)
             {
                 case "1":
-                    
+                    List();
                     return this;
                 case "2":
                     Add();
