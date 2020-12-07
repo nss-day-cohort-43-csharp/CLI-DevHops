@@ -23,11 +23,13 @@ namespace TabloidCLI.Repositories
                 /// use command
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
+                    // create the sql command with the added values
                     cmd.CommandText = @"INSERT INTO Blog (Title, URL)
                                         VALUES (@title, @url)";
                     cmd.Parameters.AddWithValue("@title", blog.Title);
                     cmd.Parameters.AddWithValue("@url", blog.Url);
 
+                    // execute the command
                     cmd.ExecuteNonQuery();
                 }
             }

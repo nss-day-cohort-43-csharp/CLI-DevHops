@@ -58,12 +58,14 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.Write("URL: ");
             string url = Console.ReadLine();
 
+            // create a new blog with the user entered info
             Blog blog = new Blog()
             {
                 Title = title,
                 Url = url
             };
 
+            // invoke the blogRepo inster method
             blogRepo.Insert(blog);
         }
     }
