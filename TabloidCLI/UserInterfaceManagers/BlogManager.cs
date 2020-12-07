@@ -29,6 +29,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("Blog Menu");
             Console.WriteLine("1) List Blogs");
             Console.WriteLine("2) Add a Blog");
+            Console.WriteLine("3) Delete a Blog");
             Console.WriteLine("0) Back");
 
             //read user entry
@@ -43,6 +44,9 @@ namespace TabloidCLI.UserInterfaceManagers
                     return this;
                 case "2":
                     Add();
+                    return this;
+                case "3":
+                    Remove();
                     return this;
                 case "0":
                     return _parentUI;
@@ -70,13 +74,30 @@ namespace TabloidCLI.UserInterfaceManagers
         // add a user given blog
         private void Add()
         {
-            // read the user entered title
-            Console.Write("Title: ");
-            string title = Console.ReadLine();
+            string title = "";
+            string url = "";
 
-            // read the user entered url
-            Console.Write("URL: ");
-            string url = Console.ReadLine();
+            // read the user entered title
+            while (true)
+            {
+                Console.Write("Title: ");
+                title = Console.ReadLine();
+                if(title.Trim() != "")
+                {
+                    break;
+                }
+            }
+
+            //read the user entered url
+            while (true)
+            {
+                Console.Write("URL: ");
+                url = Console.ReadLine();
+                if (url.Trim() != "")
+                {
+                    break;
+                }
+            }
 
             // create a new blog with the user entered info
             Blog blog = new Blog()
