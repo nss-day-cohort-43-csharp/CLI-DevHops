@@ -25,7 +25,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("Journal Menu");
             Console.WriteLine(" 1) List Journals");
             Console.WriteLine(" 2) Add Journal");
-            Console.WriteLine(" 3) Remove Jounal");
+            Console.WriteLine(" 3) Remove Journal");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -139,20 +139,28 @@ namespace TabloidCLI.UserInterfaceManagers
 
             Console.Write("> ");
             string input = Console.ReadLine();
-            try
-            {
-                int choice = int.Parse(input);
-                return journals[choice - 1];
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Invalid Selection");
-                return null;
-            }
+                try
+                {
+                    int choice = int.Parse(input);
+                    return journals[choice - 1];
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid Selection");
+                    return null;
+                }
         }
         private void Remove()
         {
             Journal journalToDelete = Choose("Which journal would you like to remove?");
+            if(journalToDelete == null)
+            {
+                Execute();
+            }
+            else
+            {
+                _journalRepository.Delete(journalToDelete.Id);
+            }
         }
     }
 }
