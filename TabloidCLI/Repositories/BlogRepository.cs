@@ -83,5 +83,28 @@ namespace TabloidCLI.Repositories
                 }
             }
         }
+
+        // deletes the blog with the given id
+        public void Delete(int id)
+        {
+            // start connection
+            using (SqlConnection conn = Connection)
+            {
+                // open connection
+                conn.Open();
+
+                //use command
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    // creat sql command
+                    cmd.CommandText = @"DELETE FROM BlogTag WHERE BlogId = @id;
+                                        DELETE FROM Blog WHERE Id = @id;";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    // excecute the sql command
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

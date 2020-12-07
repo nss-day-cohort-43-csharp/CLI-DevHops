@@ -88,5 +88,19 @@ namespace TabloidCLI.UserInterfaceManagers
             // invoke the blogRepo inster method
             _blogRepository.Insert(blog);
         }
+
+
+        // deletes a user selected blog
+        private void Remove()
+        {
+            // display all the blogs
+            Console.WriteLine("Choose a blog to delete");
+            List<Blog> blogs = _blogRepository.GetAll();
+
+            foreach(Blog blog in blogs)
+            {
+                Console.WriteLine($"{blog.Id}) {blog.Title}");
+            }
+        }
     }
 }
