@@ -19,7 +19,7 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             _parentUI = parentUI;
             _connectionString = connectionString;
-            _blogRepository = new BlogRepository(connectionString);
+            _blogRepository = new BlogRepository(_connectionString);
         }
 
         // excute code when returned
@@ -27,17 +27,22 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             // Display Blog Options
             Console.WriteLine("Blog Menu");
-            Console.WriteLine("1) Add Blog");
+            Console.WriteLine("1) List Blogs");
+            Console.WriteLine("2) Add a Blog");
             Console.WriteLine("0) Back");
 
             //read user entry
+            Console.Write("> ");
             string selection = Console.ReadLine();
 
             // invoke the selected method
             switch(selection)
             {
                 case "1":
-                    Add(_blogRepository);
+                    List();
+                    return this;
+                case "2":
+                    Add();
                     return this;
                 case "0":
                     return _parentUI;
@@ -48,7 +53,22 @@ namespace TabloidCLI.UserInterfaceManagers
            
         }
 
-        private static void Add(BlogRepository blogRepo)
+        // List all of the blogs
+        private void List()
+        {
+            // get all of the blogs from the databse
+            List<Blog> blogs = _blogRepository.GetAll();
+
+            // write the title and url of each
+            foreach(Blog blog in blogs)
+            {
+                Console.WriteLine($"Title: {blog.Title}");
+                Console.WriteLine($"URL: {blog.Url}\n");
+            }
+        }
+
+        // add a user given blog
+        private void Add()
         {
             // read the user entered title
             Console.Write("Title: ");
@@ -66,7 +86,7 @@ namespace TabloidCLI.UserInterfaceManagers
             };
 
             // invoke the blogRepo inster method
-            blogRepo.Insert(blog);
+            _blogRepository.Insert(blog);
         }
     }
 }
