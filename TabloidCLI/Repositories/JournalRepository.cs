@@ -20,10 +20,13 @@ namespace TabloidCLI
                     {
                         cmd.CommandText = @"SELECT Id, Title, Content, CreateDateTime
                                             FROM Journal";
+
+                        //Delcare a List to save journals
                         List<Journal> journals = new List<Journal>();
 
                         SqlDataReader reader = cmd.ExecuteReader();
                         
+                        //Get all the infomation from Journal in DB
                         while(reader.Read())
                         {
                             Journal journal = new Journal
@@ -33,6 +36,7 @@ namespace TabloidCLI
                                 Content = reader.GetString(reader.GetOrdinal("Content")),
                                 CreateDateTime = reader.GetDateTime(reader.GetOrdinal("CreateDateTime"))
                             };
+                            //Add Each Journal to list
                             journals.Add(journal);
                         }
                         reader.Close();
@@ -42,9 +46,9 @@ namespace TabloidCLI
             }
         }
 
-        public void Insert (Journal journal)
-        {
-            using (SqlConnection)
-        }
+       // public void Insert (Journal journal)
+        //{
+      //      using (SqlConnection)
+     //   }
     }
 }
