@@ -42,7 +42,7 @@ namespace TabloidCLI.UserInterfaceManagers
                     Add();
                     return this;
                 case "3":
-                    
+                    Edit();
                     return this;
                 case "4":
                     Remove();
@@ -182,6 +182,57 @@ namespace TabloidCLI.UserInterfaceManagers
             }
 
             _postRepository.Insert(post);
+        }
+
+        private void Edit()
+        {
+            //Gets list of all posts
+            List<Post> posts = _postRepository.GetAll();
+            //Declares postToEdit variable and sets it to null
+            Post postToEdit = null;
+
+            //Creates list of posts for user to choose from
+            Console.WriteLine("Which post would you like to edit?");
+            for (int i = 0; i < posts.Count; i++)
+            {
+                Post post = posts[i];
+                Console.WriteLine($" {i + 1}) {post.Title}");
+            }
+            Console.Write("> ");
+
+            //Trys to get selected post from list
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                postToEdit = posts[choice - 1];
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Selection");
+            }
+
+            Console.WriteLine();
+            Console.Write("New Title (blank to leave unchanged): ");
+            string title = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                postToEdit.Title = title;
+            }
+            Console.Write("New URL (blank to leave unchanged): ");
+            string url = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                postToEdit.Url = url;
+            }
+            Console.Write("New publication date (blank to leave unchanged): ");
+            DateTime pubDate = Convert.ToDateTime(Console.ReadLine());
+            if (!DateTime.IsNullOrWhiteSpace(pubDate))
+            {
+                postToEdit.PublishDateTime = pubDate;
+            }
+
+            _postRepository.Update(postToEdit);
         }
 
         //Receives user input on which post to delete and then runs that post id through the delete method from the post repo
