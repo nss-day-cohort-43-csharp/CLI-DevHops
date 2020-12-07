@@ -31,33 +31,18 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("0) Back");
 
             //read user entry
-            int selection = 0;
-            while (true)
-            {
-                try
-                {
-                    selection = Int32.Parse(Console.ReadLine());
-                    if (selection < 0 && selection > 1)
-                    {
-                        throw new Exception();
-                    }
-                    break;
-                }
-                catch
-                {
-                    Console.WriteLine("Please enter a valid selection");
-                }
-            }
+            string selection = Console.ReadLine();
 
             // invoke the selected method
             switch(selection)
             {
-                case 1:
+                case "1":
                     Add(_blogRepository);
                     return this;
-                case 0:
+                case "0":
                     return _parentUI;
                 default:
+                    Console.WriteLine("Invalid selection");
                     return this;
             }
            
