@@ -64,46 +64,49 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Add()
         {
-            while (true)
+           Console.WriteLine("New Journal");
+           Journal journal = new Journal();
+
+            while(true)
             {
+                Console.Write("Title: ");
+                //Check for a vaild title
+                journal.Title = Console.ReadLine();
+                if (journal.Title != "")
+                {
+                    break;
+                }
+            }
+
+            while(true)
+            {
+
+                Console.Write("Creation date (YYYY-MM-DD): ");
+                //check for valid date
                 try
                 {
-                    Console.WriteLine("New Journal");
-                    Journal journal = new Journal();
-
-                    Console.Write("Title: ");
-                    //Check for a vaild title
-                    journal.Title = Console.ReadLine();
-                    if (journal.Title == "")
-                    {
-                        throw new Exception();
-                    }
-
-                    Console.Write("Creation date (YYYY-MM-DD): ");
                     journal.CreateDateTime = Convert.ToDateTime(Console.ReadLine());
-                    //Check for a vaild date
-                    if (journal.CreateDateTime == null)
-                    {
-                        throw new Exception();
-                    }
-
-                    Console.Write("Content: ");
-                    journal.Content = Console.ReadLine();
-                    //Check for a vaild content
-                    if (journal.Title == ""|| journal.Content == "" || journal.CreateDateTime == null)
-                    {
-                        throw new Exception();
-                    }
-
-                    //all validation passed addand break out of while loop
-                    _journalRepository.Insert(journal);
                     break;
                 }
                 catch
                 {
-                    Console.WriteLine("Please enter valid information\n");
+                    Console.WriteLine("Invalid Date");
                 }
             }
+
+            while(true)
+            {
+                Console.Write("Content: ");
+                journal.Content = Console.ReadLine();
+                //Check for a vaild content
+                if (journal.Content != "" )
+                {
+                    break;
+                }
+            }
+
+            //all validation passed addand break out of while loop
+            _journalRepository.Insert(journal);
         }
     }
 }
