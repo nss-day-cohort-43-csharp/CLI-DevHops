@@ -9,9 +9,57 @@ namespace TabloidCLI.Repositories
     {
         public PostRepository(string connectionString) : base(connectionString) { }
 
+        //Fetches and returns all posts from database
         public List<Post> GetAll()
         {
-            throw new NotImplementedException();
+            //Creates a connection that closes after using
+            using (SqlConnection conn = Connection)
+            {
+                //Opens connection
+                conn.Open();
+                //Creates a command that closes after using
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    //Command given SQL string to execute
+                    cmd.CommandText = @"SELECT p.Id, p.Title, p.URL, PublishDateTime, AuthorId, BlogId, FirstName, LastName, Bio, b.Title AS BlogTitle, b.URL AS BlogURL
+                                        FROM Post p
+                                        JOIN Author a ON a.Id = AuthorId
+                                        JOIN Blog b ON b.Id = BlogId";
+
+                    //Executes command and stores returned info in reader variable
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<Post> posts = new List<Post>();
+
+                    //Loops through all data and creates a post for each row that gets added to posts variable
+                    while (reader.Read())
+                    {
+                        posts.Add(new Post
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Title = reader.GetString(reader.GetOrdinal("Title")),
+                            Url = reader.GetString(reader.GetOrdinal("URL")),
+                            PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime")),
+                            Author = new Author
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("AuthorId")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                Bio = reader.GetString(reader.GetOrdinal("Bio"))
+                            },
+                            Blog = new Blog
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("BlogId")),
+                                Title = reader.GetString(reader.GetOrdinal("BlogTitle")),
+                                Url = reader.GetString(reader.GetOrdinal("BlogURL"))
+                            }
+                        });
+                    }
+                    reader.Close();
+
+                    return posts;
+                }
+            }
         }
 
         public Post Get(int id)
