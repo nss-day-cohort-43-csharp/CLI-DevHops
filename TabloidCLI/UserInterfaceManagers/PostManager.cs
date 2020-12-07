@@ -54,7 +54,22 @@ namespace TabloidCLI.UserInterfaceManagers
                     return this;
             }
         }
-        //Takes in user input for titel, url, date, author, and blog and then runs the insert method on the post repo
+
+        //Lists all posts
+        private void List()
+        {
+            //Get all the posts from the database
+            List<Post> posts = _postRepository.GetAll();
+
+            //Output title and url for each post to the console
+            foreach (Post post in posts)
+            {
+                Console.WriteLine($"Title: {post.Title}");
+                Console.WriteLine($"URL: {post.Url}\n");
+            }
+        }
+
+        //Takes in user input for title, url, date, author, and blog and then runs the insert method on the post repo
         private void Add()
         {
             Console.WriteLine("New Post");

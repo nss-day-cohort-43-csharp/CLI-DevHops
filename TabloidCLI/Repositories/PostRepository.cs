@@ -11,7 +11,51 @@ namespace TabloidCLI.Repositories
 
         public List<Post> GetAll()
         {
-            throw new NotImplementedException();
+            //Creates a connection that closes after using
+            using (SqlConnection conn = Connection)
+            {
+                //Opens connection
+                conn.Open();
+                //Creates a command that closes after using
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    //Command given SQL string to execute with parameters that inherit from brought in post
+                    cmd.CommandText = @"SELECT p.Id, p.Title, p.URL, PublishDateTime, AuthorId, BlogId, FirstName, LastName, Bio, b.Title AS BlogTitle, b.URL AS BlogURL
+                                        FROM Post p
+                                        JOIN Author a ON a.Id = AuthorId
+                                        JOIN Blog b ON b.Id = BlogId";
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    List<Post> posts = new List<Post>();
+
+                    while (reader.Read())
+                    {
+                        posts.Add(new Post
+                        {
+                            Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                            Title = reader.GetString(reader.GetOrdinal("Title")),
+                            Url = reader.GetString(reader.GetOrdinal("URL")),
+                            PublishDateTime = reader.GetDateTime(reader.GetOrdinal("PublishDateTime")),
+                            Author = new Author
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("AuthorId")),
+                                FirstName = reader.GetString(reader.GetOrdinal("FirstName")),
+                                LastName = reader.GetString(reader.GetOrdinal("LastName")),
+                                Bio = reader.GetString(reader.GetOrdinal("Bio"))
+                            },
+                            Blog = new Blog
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("BlogId")),
+                                Title = reader.GetString(reader.GetOrdinal("BlogTitle")),
+                                Url = reader.GetString(reader.GetOrdinal("BlogURL"))
+                            }
+                        });
+                    }
+                    reader.Close();
+
+                    return posts;
+                }
+            }
         }
 
         public Post Get(int id)
@@ -80,27 +124,8 @@ namespace TabloidCLI.Repositories
         //Adds a post to the database
         public void Insert(Post post)
         {
-            //Creates a connection that closes after using
-            using (SqlConnection conn = Connection)
-            {
-                //Opens connection
-                conn.Open();
-                //Creates a command that closes after using
-                using (SqlCommand cmd = conn.CreateCommand())
-                {
-                    //Command given SQL string to execute with parameters that inherit from brought in post
-                    cmd.CommandText = @"INSERT INTO Post (Title, URL, PublishDateTime, AuthorId, BlogId)
-                                        VALUES (@title, @url, @pubDate, @aId, @bId)";
-                    cmd.Parameters.AddWithValue("@title", post.Title);
-                    cmd.Parameters.AddWithValue("@url", post.Url);
-                    cmd.Parameters.AddWithValue("@pubDate", post.PublishDateTime);
-                    cmd.Parameters.AddWithValue("@aId", post.Author.Id);
-                    cmd.Parameters.AddWithValue("@bId", post.Blog.Id);
-
-                    //Executes command and returns nothing
-                    cmd.ExecuteNonQuery();
-                }
-            }
+            
+            
         }
 
         public void Update(Post post)
