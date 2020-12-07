@@ -27,7 +27,8 @@ namespace TabloidCLI.UserInterfaceManagers
         {
             // Display Blog Options
             Console.WriteLine("Blog Menu");
-            Console.WriteLine("1) Add Blog");
+            Console.WriteLine("1) List Blogs");
+            Console.WriteLine("2) Add a Blog");
             Console.WriteLine("0) Back");
 
             //read user entry
@@ -37,6 +38,9 @@ namespace TabloidCLI.UserInterfaceManagers
             switch(selection)
             {
                 case "1":
+                    List(_blogRepository);
+                    return this;
+                case "2":
                     Add(_blogRepository);
                     return this;
                 case "0":
@@ -48,6 +52,21 @@ namespace TabloidCLI.UserInterfaceManagers
            
         }
 
+        // List all of the blogs
+        private static void List(BlogRepository blogRepo)
+        {
+            // get all of the blogs from the databse
+            List<Blog> blogs = blogRepo.GetAll();
+
+            // write the title and url of each
+            foreach(Blog blog in blogs)
+            {
+                Console.WriteLine($"Title: {blog.Title}");
+                Console.WriteLine($"URL: {blog.Url}\n");
+            }
+        }
+
+        // add a user given blog
         private static void Add(BlogRepository blogRepo)
         {
             // read the user entered title
