@@ -62,7 +62,6 @@ namespace TabloidCLI.UserInterfaceManagers
             // write the title and url of each
             foreach(Blog blog in blogs)
             {
-                Console.WriteLine($"Id: {blog.Id}");
                 Console.WriteLine($"Title: {blog.Title}");
                 Console.WriteLine($"URL: {blog.Url}\n");
             }
