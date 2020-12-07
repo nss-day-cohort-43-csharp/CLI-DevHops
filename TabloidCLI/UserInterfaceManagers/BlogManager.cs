@@ -142,10 +142,9 @@ namespace TabloidCLI.UserInterfaceManagers
                 {
                     Console.WriteLine("Invalid Selection");
                 }
-
-                // delete the selected blog
-                _blogRepository.Delete(id);
             }
+            // delete the selected blog
+            _blogRepository.Delete(id);
         }
     }
 }

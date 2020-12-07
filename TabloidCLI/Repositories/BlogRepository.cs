@@ -98,7 +98,47 @@ namespace TabloidCLI.Repositories
                 //use command
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    // creat sql command
+                    // get all posts associated with the blog
+                    cmd.CommandText = @"SELECT Id FROM Post WHERE BlogId = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+                    SqlDataReader postReader = cmd.ExecuteReader();
+
+                    // read each post
+                    while(postReader.Read())
+                    {
+                        // get the post id
+                        int postId = postReader.GetInt32(postReader.GetOrdinal("Id"));
+
+                        // get all notes associated with the post
+                        cmd.CommandText = @"SELECT Id FROM Note WHERE PostId = @postId";
+                        cmd.Parameters.AddWithValue("@postId", postId);
+
+                        SqlDataReader noteReader = cmd.ExecuteReader();
+                        //read while there are posts
+                        while (noteReader.Read())
+                        {
+                            //get the note id
+                            int noteId = noteReader.GetInt32(noteReader.GetOrdinal("Id"));
+
+                            //create sql command to delete each note
+                            cmd.CommandText = @"DELETE FROM Note WHERE Id = @noteId";
+                            cmd.Parameters.AddWithValue("@noteId", noteId);
+
+                            // execute the command
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        // create sql command to delete post and any associated postTags
+                        cmd.CommandText = @"DELETE FROM PostTag WHERE PostId = @postId;
+                                            DELETE FROM Post WHERE Id = @postId";
+                        cmd.Parameters.AddWithValue("@postId", postId);
+
+                        // execute delete command
+                        cmd.ExecuteNonQuery();
+
+                    }
+
+                    // creat sql command to delete the blog and any tags with the blog
                     cmd.CommandText = @"DELETE FROM BlogTag WHERE BlogId = @id;
                                         DELETE FROM Blog WHERE Id = @id;";
                     cmd.Parameters.AddWithValue("@id", id);
