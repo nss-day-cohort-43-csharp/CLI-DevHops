@@ -208,7 +208,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 
 
                 //set the blog's url
-                if (!string.IsNullOrWhiteSpace(url)  && url.Length <= 2000)
+                if (!string.IsNullOrWhiteSpace(url))
                 {
                     blog.Url = url;
                 }
