@@ -196,6 +196,7 @@ namespace TabloidCLI.Repositories
                 {
                     //Command given SQL string to execute with parameters that inherit from brought in post id
                     cmd.CommandText = @"DELETE FROM Note WHERE PostId = @id;
+                                        DELETE FROM PostTag WHERE PostId = @id;
                                         DELETE FROM Post WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
 
