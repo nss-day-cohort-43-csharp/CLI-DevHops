@@ -16,16 +16,22 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("Background Color Choices");
             Console.WriteLine(" 1) Blue");
             Console.WriteLine(" 2) Green");
-            Console.WriteLine(" 3) Navy");
+            Console.WriteLine(" 3) White");
             Console.WriteLine(" 0) Exit");
 
             Console.Write("> ");
             string choice = Console.ReadLine();
             switch (choice)
             {
-                case "1": return this;
-                case "2": return this;
-                case "3": return this;
+                case "1":
+                    SetColorWithWhiteText(ConsoleColor.Blue);
+                    return this;
+                case "2":
+                    SetColorWithBlackText(ConsoleColor.Green);
+                    return this;
+                case "3":
+                    SetColorWithBlackText(ConsoleColor.White);
+                    return this;
                 case "0":
                     return _parentUI;
                 default:
@@ -34,4 +40,18 @@ namespace TabloidCLI.UserInterfaceManagers
 
             }
         }
+        private void SetColorWithWhiteText(ConsoleColor color)
+        {
+            Console.BackgroundColor = color;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.White;
+        }
+        private void SetColorWithBlackText(ConsoleColor color)
+        {
+            Console.BackgroundColor = color;
+            Console.Clear();
+            Console.ForegroundColor = ConsoleColor.Black;
+        }
+        
+    }
 }
