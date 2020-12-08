@@ -209,11 +209,14 @@ namespace TabloidCLI.UserInterfaceManagers
             }
             catch
             {
+                //If invalid selection, go back to post menu
                 Console.WriteLine("Invalid Selection");
+                Execute();
             }
 
             Console.WriteLine();
             Console.Write("New Title (blank to leave unchanged): ");
+            //Get user input for new title. If blank, it remains unchanged
             string title = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(title))
             {
@@ -222,14 +225,16 @@ namespace TabloidCLI.UserInterfaceManagers
 
             Console.Write("New URL (blank to leave unchanged): ");
             string url = Console.ReadLine();
+            //Get user input for new url. If blank, it remains unchanged
             if (!string.IsNullOrWhiteSpace(url))
             {
                 postToEdit.Url = url;
             }
 
-            Console.Write("New publication date (blank to leave unchanged): ");
+            //Get user input for new date. If blank, it remains unchanged
             while (true)
             {
+                Console.Write("New publication date (blank to leave unchanged): ");
                 try
                 {
                     string date = Console.ReadLine();
@@ -258,11 +263,75 @@ namespace TabloidCLI.UserInterfaceManagers
                     Console.WriteLine("Invalid Date");
                 }
             }
+            
+            //Creates a new author repo instance
+            AuthorRepository authorRepo = new AuthorRepository(_connectionString);
+            //Creates list of all authors in database
+            List<Author> authors = authorRepo.GetAll();
 
-            Console.Write("New author (blank to leave unchanged): ");
+            //User chooses new author for post from the presented list of all authors. If blank, it remains unchanged
+            while (true)
+            {
+                Console.WriteLine("New author (blank to leave unchanged): ");
+                for (int i = 0; i < authors.Count; i++)
+                {
+                    Author author = authors[i];
+                    Console.WriteLine($" {i + 1}) {author.FullName}");
+                }
+                Console.Write("> ");
 
-            Console.Write("New blog (blank to leave unchanged): ");
+                string newAuthor = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(newAuthor))
+                {
+                    break;
+                }
 
+                try
+                {
+                    int choice = int.Parse(newAuthor);
+                    postToEdit.Author = authors[choice - 1];
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid Selection");
+                }
+            }
+
+            //Creates a new blog repo instance
+            BlogRepository blogRepo = new BlogRepository(_connectionString);
+            //Creates list of all blogs in database
+            List<Blog> blogs = blogRepo.GetAll();
+
+            //User chooses new blog for post from the presented list of all blogs. If blank, it remains unchanged
+            while (true)
+            {
+                Console.WriteLine("New blog (blank to leave unchanged): ");
+                for (int i = 0; i < blogs.Count; i++)
+                {
+                    Blog blog = blogs[i];
+                    Console.WriteLine($" {i + 1}) {blog.Title}");
+                }
+                Console.Write("> ");
+
+                string newBlog = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(newBlog))
+                {
+                    break;
+                }
+
+                try
+                {
+                    int choice = int.Parse(newBlog);
+                    postToEdit.Blog = blogs[choice - 1];
+                    break;
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid Selection");
+                }
+            }
+            
             _postRepository.Update(postToEdit);
         }
 
