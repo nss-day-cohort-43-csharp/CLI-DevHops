@@ -82,8 +82,16 @@ namespace TabloidCLI.UserInterfaceManagers
                 userResponse = Console.ReadLine();
                 if (!string.IsNullOrWhiteSpace(userResponse))
                 {
-                    post.Title = userResponse;
-                    break;
+                    if (userResponse.Length <= 55)
+                    {
+                        post.Title = userResponse;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Title must be 55 characters or less");
+                    }
+                    
                 }
             }
 
@@ -93,8 +101,16 @@ namespace TabloidCLI.UserInterfaceManagers
                 userResponse = Console.ReadLine();
                 if (!string.IsNullOrWhiteSpace(userResponse))
                 {
-                    post.Url = userResponse;
-                    break;
+                    if (userResponse.Length <= 2000)
+                    {
+                        post.Url = userResponse;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("URL must be 2000 characters or less");
+                    }
+                    
                 }
             }
 
@@ -215,20 +231,50 @@ namespace TabloidCLI.UserInterfaceManagers
             }
 
             Console.WriteLine();
-            Console.Write("New Title (blank to leave unchanged): ");
-            //Get user input for new title. If blank, it remains unchanged
-            string title = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(title))
+            while (true)
             {
-                postToEdit.Title = title;
+                Console.Write("New Title (blank to leave unchanged): ");
+                //Get user input for new title. If blank, it remains unchanged
+                string title = Console.ReadLine();
+                if (string.IsNullOrWhiteSpace(title))
+                {
+                    break;
+                }
+                else
+                { 
+                    if (title.Length <= 55)
+                    {
+                        postToEdit.Title = title;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Title must be 55 characters or less");
+                    }
+                }
             }
 
-            Console.Write("New URL (blank to leave unchanged): ");
-            string url = Console.ReadLine();
-            //Get user input for new url. If blank, it remains unchanged
-            if (!string.IsNullOrWhiteSpace(url))
+            while (true)
             {
-                postToEdit.Url = url;
+                Console.Write("New URL (blank to leave unchanged): ");
+                string url = Console.ReadLine();
+                //Get user input for new url. If blank, it remains unchanged
+                if (string.IsNullOrWhiteSpace(url))
+                {
+                    break;
+                }
+                else
+                {
+                    if (url.Length <= 2000)
+                    {
+                        postToEdit.Url = url;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("URL must be 2000 characters or less");
+                    }
+                }
             }
 
             //Get user input for new date. If blank, it remains unchanged
