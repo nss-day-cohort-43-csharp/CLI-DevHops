@@ -83,6 +83,7 @@ namespace TabloidCLI
         {
             using(SqlConnection conn = Connection)
             {
+                conn.Open();
                 using(SqlCommand cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"UPDATE Journal 

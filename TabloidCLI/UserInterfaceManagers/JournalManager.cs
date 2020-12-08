@@ -171,11 +171,43 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
-            Journal journalToDelete = Choose("Which journal would you like to edit?");
-            if (journalToDelete == null)
+            Journal journalToEdit = Choose("Which journal would you like to edit?");
+            if (journalToEdit == null)
             {
                 Execute();
             }
+
+            Console.Write("New Title (blank to leave unchanged): ");
+            string title = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(title))
+            {
+                journalToEdit.Title = title;
+            }
+            DateTime createdDateTime = new DateTime();
+            Console.Write("New Date Created (blank to leave unchanged): ");
+            try 
+            {
+               createdDateTime = Convert.ToDateTime(Console.ReadLine());
+            }
+            catch
+            {
+                createdDateTime = journalToEdit.CreateDateTime;
+            }
+
+            DateTime limit = new DateTime(1753, 1, 1);
+            if (createdDateTime.Date > limit.Date && createdDateTime.Date < DateTime.Now)
+            {
+                journalToEdit.CreateDateTime = createdDateTime;
+            }
+
+            Console.Write("New Content (blank to leave unchanged): ");
+            string content = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(title))
+            {
+                journalToEdit.Content = content;
+            }
+
+            _journalRepository.Update(journalToEdit);
         }
     }
 }
