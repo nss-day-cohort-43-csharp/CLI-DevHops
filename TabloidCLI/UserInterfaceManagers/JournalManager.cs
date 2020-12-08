@@ -77,14 +77,20 @@ namespace TabloidCLI.UserInterfaceManagers
            Console.WriteLine("New Journal");
            Journal journal = new Journal();
 
+
             while(true)
             {
                 Console.Write("Title: ");
                 //Check for a vaild title
                 journal.Title = Console.ReadLine();
-                if (journal.Title != "")
+                if (journal.Title != "" && journal.Title.Length < 56)
                 {
                     break;
+                }
+
+                if(journal.Title.Length > 56)
+                {
+                    Console.WriteLine("Title can not be longer than 55 characters.");
                 }
             }
 
@@ -179,11 +185,27 @@ namespace TabloidCLI.UserInterfaceManagers
             }
 
             //Get user input for title. If blank, it remains unchanged
-            Console.Write("New Title (blank to leave unchanged): ");
-            string title = Console.ReadLine();
-            if(!string.IsNullOrWhiteSpace(title))
+
+            while (true)
             {
-                journalToEdit.Title = title;
+                Console.Write("New Title (blank to leave unchanged): ");
+                string title = Console.ReadLine();
+                if(string.IsNullOrWhiteSpace(title))
+                {
+                    break;
+                }
+                else
+                {
+                    if (title.Length > 56)
+                    {
+                        Console.WriteLine("Title can not be longer than 55 characters.");;
+                    }
+                    else
+                    {
+                        journalToEdit.Title = title;
+                        break;
+                    }
+                }
             }
 
             //Get user input for date. If blank, it remains unchanged
