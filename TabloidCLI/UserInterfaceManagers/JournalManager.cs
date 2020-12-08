@@ -87,6 +87,11 @@ namespace TabloidCLI.UserInterfaceManagers
                 {
                     break;
                 }
+
+                if(journal.Title.Length > 56)
+                {
+                    Console.WriteLine("Title can not be longer than 55 characters.");
+                }
             }
 
             while(true)
@@ -180,9 +185,10 @@ namespace TabloidCLI.UserInterfaceManagers
             }
 
             //Get user input for title. If blank, it remains unchanged
-            Console.Write("New Title (blank to leave unchanged): ");
+
             while (true)
             {
+                Console.Write("New Title (blank to leave unchanged): ");
                 string title = Console.ReadLine();
                 if(string.IsNullOrWhiteSpace(title))
                 {
@@ -190,14 +196,14 @@ namespace TabloidCLI.UserInterfaceManagers
                 }
                 else
                 {
-                    if (title.Length < 56)
+                    if (title.Length > 56)
                     {
-                        journalToEdit.Title = title;
-                        break;
+                        Console.WriteLine("Title can not be longer than 55 characters.");;
                     }
                     else
                     {
-                        Console.WriteLine("Title can not be longer than 55 characters.");
+                        journalToEdit.Title = title;
+                        break;
                     }
                 }
             }
