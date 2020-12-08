@@ -189,7 +189,7 @@ namespace TabloidCLI.UserInterfaceManagers
             //Get user input for date. If blank, it remains unchanged
             while (true)
             {
-                Console.Write("New creation date (blank to leave unchanged): ");
+                Console.Write("New Creation Date (blank to leave unchanged): ");
                 try
                 {
                     string date = Console.ReadLine();
@@ -198,12 +198,12 @@ namespace TabloidCLI.UserInterfaceManagers
                         break;
                     }
 
-                    DateTime convetedDate = Convert.ToDateTime(date);
+                    DateTime convertedDate = Convert.ToDateTime(date);
                     //check for valid date range
                     DateTime limit = new DateTime(1753, 1, 1);
-                    if (convetedDate.Date > limit.Date && convetedDate.Date < DateTime.Now)
+                    if (convertedDate.Date > limit.Date && convertedDate.Date < DateTime.Now)
                     {
-                        journalToEdit.CreateDateTime = convetedDate;
+                        journalToEdit.CreateDateTime = convertedDate;
                         break;
                     }
                     else
@@ -225,8 +225,11 @@ namespace TabloidCLI.UserInterfaceManagers
                 journalToEdit.Content = content;
             }
 
-            //vaildation complete uodate post
-            _journalRepository.Update(journalToEdit);
+            if(journalToEdit != null)
+            {
+                //vaildation complete update post
+                _journalRepository.Update(journalToEdit);
+            }
         }
     }
 }
