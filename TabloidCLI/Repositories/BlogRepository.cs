@@ -6,10 +6,55 @@ using Microsoft.Data.SqlClient;
 
 namespace TabloidCLI.Repositories
 {
-    class BlogRepository : DatabaseConnector
+    class BlogRepository : DatabaseConnector, IRepository<Blog>
     {
         /// repository constructor
         public BlogRepository(string _connectionString) : base(_connectionString) { }
+
+        public Blog Get(int id)
+        {
+            // start a connection
+            using (SqlConnection conn = Connection)
+            {
+                // open the connection
+                conn.Open();
+                // use a command
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    // create sql command to get the give blog
+                    cmd.CommandText = @"SELECT Title, URL FROM Blog WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    // execute the command and get the reader
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    // declare a blog to store the data
+                    Blog blog = null;
+
+                    // read the data
+                    if(reader.Read())
+                    {
+                        // get the values
+                        string title = reader.GetString(reader.GetOrdinal("Title"));
+                        string url = reader.GetString(reader.GetOrdinal("URL"));
+
+                        // create a new blog
+                        blog = new Blog()
+                        {
+                            Id = id,
+                            Title = title,
+                            Url = url,
+                        };
+                    }
+
+                    // close the reader
+                    reader.Close();
+
+                    //return the blog
+                    return blog;
+                }
+            }
+        }
 
         // returns a list of all the blogs in the database
         public List<Blog> GetAll()
@@ -119,6 +164,33 @@ namespace TabloidCLI.Repositories
 
                     cmd.Parameters.AddWithValue("@id", id);
                     cmd.ExecuteNonQuery();                   
+                }
+            }
+        }
+
+        // updates the given blog
+        public void Update(Blog blog)
+        {
+            // start a connection
+            using (SqlConnection conn = Connection)
+            {
+                // open the connection
+                conn.Open();
+
+                // use a command
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    // create sql command
+                    cmd.CommandText = @"UPDATE Blog
+                                        SET Title = @title,
+                                            URL = @url
+                                        WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@title", blog.Title);
+                    cmd.Parameters.AddWithValue("@url", blog.Url);
+                    cmd.Parameters.AddWithValue("@id", blog.Id);
+
+                    // execute the update command
+                    cmd.ExecuteNonQuery();
                 }
             }
         }

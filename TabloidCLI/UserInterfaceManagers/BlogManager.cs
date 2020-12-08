@@ -110,36 +110,86 @@ namespace TabloidCLI.UserInterfaceManagers
             _blogRepository.Insert(blog);
         }
 
-
-        // deletes a user selected blog
-        private void Remove()
+        // lists all the blogs for the user to choose
+        private int Choose(string prompt)
         {
             // get all of the blogs to list      
             List<Blog> blogs = _blogRepository.GetAll();
 
             // declare and initialize the id
-            int id = 0;
+            int id = -1;
 
-           
+
             // list all of the blogs
-            Console.WriteLine("Choose a blog to delete");
+            Console.WriteLine(prompt);
             for (int i = 1; i <= blogs.Count; i++)
             {
                 Console.WriteLine($"{i}) {blogs[i - 1]}");
             }
 
-            // try to delete the blog
+            // try to set the id
             Console.Write("> ");
             try
             {
                 id = blogs[Int32.Parse(Console.ReadLine()) - 1].Id;
-                _blogRepository.Delete(id);
             }
             // let the user know if what they entered does not work
-            catch 
+            catch
             {
                 Console.WriteLine("Invalid Selection");
-            }       
+            }
+
+            //return the id
+            return id;
+        }
+
+        // deletes a user selected blog
+        private void Remove()
+        {
+            // get the user chosen id
+            int id = Choose("Choose a blog to delete");
+            // if the id was valid, delete the blog
+            if(id != -1)
+            {
+                _blogRepository.Delete(id);
+            }
+        }
+
+        // edits a user selected blog with the user given data
+        private void Edit()
+        {
+            // get the id chose by the user
+            int id = Choose("Choose a blog to edit");
+
+            // if the id was valid
+            if(id != -1)
+            {
+                // get the blog
+                Blog blog = _blogRepository.Get(id);
+
+                //prompt for the title
+                Console.Write("Title (blank to leave unchanged): ");
+                string title = Console.ReadLine();
+
+                // set the blogs title
+                if (!string.IsNullOrWhiteSpace(title))
+                {
+                    blog.Title = title;
+                }
+
+                //prompt for the url
+                Console.Write("URL (blank to leave unchanged): ");
+                string url = Console.ReadLine();
+
+                //set the blog's url
+                if (!string.IsNullOrWhiteSpace(url))
+                {
+                    blog.Url = url;
+                }
+
+                // edit the blog with the given data
+                _blogRepository.Update(blog);
+            }
         }
     }
 }
