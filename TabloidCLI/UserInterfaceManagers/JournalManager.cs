@@ -130,7 +130,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine(prompt);
 
             List<Journal> journals = _journalRepository.GetAll();
-            
+            //list all journal titles and selection number
             for(int i = 0; i < journals.Count; i++)
             {
                 Journal journal = journals[i];
@@ -139,6 +139,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
             Console.Write("> ");
             string input = Console.ReadLine();
+            //check for vaild selection
                 try
                 {
                     int choice = int.Parse(input);
@@ -153,6 +154,7 @@ namespace TabloidCLI.UserInterfaceManagers
         private void Remove()
         {
             Journal journalToDelete = Choose("Which journal would you like to remove?");
+            //if there is no journal go to journal manager menu
             if(journalToDelete == null)
             {
                 Execute();
