@@ -120,7 +120,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 }
             }
 
-            //all validation passed addand break out of while loop
+            //all validation passed add and break out of while loop
             _journalRepository.Insert(journal);
         }
 
@@ -177,36 +177,54 @@ namespace TabloidCLI.UserInterfaceManagers
                 Execute();
             }
 
+            //Get user input for title. If blank, it remains unchanged
             Console.Write("New Title (blank to leave unchanged): ");
             string title = Console.ReadLine();
             if(!string.IsNullOrWhiteSpace(title))
             {
                 journalToEdit.Title = title;
             }
-            DateTime createdDateTime = new DateTime();
-            Console.Write("New Date Created (blank to leave unchanged): ");
-            try 
+
+            //Get user input for date. If blank, it remains unchanged
+            while (true)
             {
-               createdDateTime = Convert.ToDateTime(Console.ReadLine());
-            }
-            catch
-            {
-                createdDateTime = journalToEdit.CreateDateTime;
+                Console.Write("New creation date (blank to leave unchanged): ");
+                try
+                {
+                    string date = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(date))
+                    {
+                        break;
+                    }
+
+                    DateTime convetedDate = Convert.ToDateTime(date);
+                    //check for valid date range
+                    DateTime limit = new DateTime(1753, 1, 1);
+                    if (convetedDate.Date > limit.Date && convetedDate.Date < DateTime.Now)
+                    {
+                        journalToEdit.CreateDateTime = convetedDate;
+                        break;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid Date");
+                }
             }
 
-            DateTime limit = new DateTime(1753, 1, 1);
-            if (createdDateTime.Date > limit.Date && createdDateTime.Date < DateTime.Now)
-            {
-                journalToEdit.CreateDateTime = createdDateTime;
-            }
-
+            //Get user input for content. If blank, it remains unchanged
             Console.Write("New Content (blank to leave unchanged): ");
             string content = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(title))
+            if (!string.IsNullOrWhiteSpace(content))
             {
                 journalToEdit.Content = content;
             }
 
+            //vaildation complete uodate post
             _journalRepository.Update(journalToEdit);
         }
     }
