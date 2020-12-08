@@ -332,7 +332,10 @@ namespace TabloidCLI.UserInterfaceManagers
                 }
             }
             
-            _postRepository.Update(postToEdit);
+            if (postToEdit != null)
+            {
+                _postRepository.Update(postToEdit);
+            }
         }
 
         //Receives user input on which post to delete and then runs that post id through the delete method from the post repo
