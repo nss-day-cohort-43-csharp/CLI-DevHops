@@ -90,6 +90,11 @@ namespace TabloidCLI.UserInterfaceManagers
                 {
                     break;
                 }
+
+                if(title.Length > 55)
+                {
+                    Console.WriteLine("Title too long");
+                }
             }
 
             //read the user entered url
@@ -100,6 +105,11 @@ namespace TabloidCLI.UserInterfaceManagers
                 if (url.Trim() != "" && url.Length <= 2000)
                 {
                     break;
+                }
+
+                if (url.Length > 2000)
+                {
+                    Console.WriteLine("URL too long");
                 }
             }
 
