@@ -45,7 +45,7 @@ namespace TabloidCLI.UserInterfaceManagers
                     
                     return this;
                 case "4":
-                    
+                    Remove();
                     return this;
                 case "0":
                     return _parentUI;
@@ -182,6 +182,42 @@ namespace TabloidCLI.UserInterfaceManagers
             }
 
             _postRepository.Insert(post);
+        }
+
+        //Receives user input on which post to delete and then runs that post id through the delete method from the post repo
+        private void Remove()
+        {
+            //Gets list of all posts
+            List<Post> posts = _postRepository.GetAll();
+            //Declares postToDelete variable and sets it to null
+            Post postToDelete = null;
+
+            //Creates list of posts for user to choose from
+            Console.WriteLine("Which post would you like to remove?");
+            for (int i = 0; i < posts.Count; i++)
+            {
+                Post post = posts[i];
+                Console.WriteLine($" {i + 1}) {post.Title}");
+            }
+            Console.Write("> ");
+
+            //Trys to get selected post from list
+            string input = Console.ReadLine();
+            try
+            {
+                int choice = int.Parse(input);
+                postToDelete = posts[choice - 1];
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Selection");
+            }
+
+            //If the user selected a valid post, it's id is sent to the post repos delete method
+            if (postToDelete != null)
+            {
+                _postRepository.Delete(postToDelete.Id);
+            }
         }
     }
 }
