@@ -21,7 +21,8 @@ namespace TabloidCLI
                                                FirstName,
                                                LastName,
                                                Bio
-                                          FROM Author";
+                                          FROM Author
+                                          WHERE IsActive = 1";
 
                     List<Author> authors = new List<Author>();
 
