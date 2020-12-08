@@ -181,12 +181,26 @@ namespace TabloidCLI.UserInterfaceManagers
 
             //Get user input for title. If blank, it remains unchanged
             Console.Write("New Title (blank to leave unchanged): ");
-            string title = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(title))
+            while (true)
             {
-                journalToEdit.Title = title;
+                string title = Console.ReadLine();
+                if(string.IsNullOrWhiteSpace(title))
+                {
+                    break;
+                }
+                else
+                {
+                    if (title.Length < 56)
+                    {
+                        journalToEdit.Title = title;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Title can not be longer than 55 characters.");
+                    }
+                }
             }
-
 
             //Get user input for date. If blank, it remains unchanged
             while (true)
