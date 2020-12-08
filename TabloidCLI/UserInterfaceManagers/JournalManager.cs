@@ -25,7 +25,8 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("Journal Menu");
             Console.WriteLine(" 1) List Journals");
             Console.WriteLine(" 2) Add Journal");
-            Console.WriteLine(" 3) Remove Journal");
+            Console.WriteLine(" 3) Edit Journal");
+            Console.WriteLine(" 4) Remove Journal");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -43,6 +44,10 @@ namespace TabloidCLI.UserInterfaceManagers
                     Add();
                     return this;
                 case "3":
+                    //Edit a Journal entry
+                    Edit();
+                    return this;
+                case "4":
                     //Remove a Journal entry
                     Remove();
                     return this;
@@ -116,7 +121,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 }
             }
 
-            //all validation passed addand break out of while loop
+            //all validation passed add and break out of while loop
             _journalRepository.Insert(journal);
         }
 
@@ -162,6 +167,68 @@ namespace TabloidCLI.UserInterfaceManagers
             else
             {
                 _journalRepository.Delete(journalToDelete.Id);
+            }
+        }
+
+        private void Edit()
+        {
+            Journal journalToEdit = Choose("Which journal would you like to edit?");
+            if (journalToEdit == null)
+            {
+                Execute();
+            }
+
+            //Get user input for title. If blank, it remains unchanged
+            Console.Write("New Title (blank to leave unchanged): ");
+            string title = Console.ReadLine();
+            if(!string.IsNullOrWhiteSpace(title))
+            {
+                journalToEdit.Title = title;
+            }
+
+            //Get user input for date. If blank, it remains unchanged
+            while (true)
+            {
+                Console.Write("New Creation Date (blank to leave unchanged): ");
+                try
+                {
+                    string date = Console.ReadLine();
+                    if (string.IsNullOrWhiteSpace(date))
+                    {
+                        break;
+                    }
+
+                    DateTime convertedDate = Convert.ToDateTime(date);
+                    //check for valid date range
+                    DateTime limit = new DateTime(1753, 1, 1);
+                    if (convertedDate.Date > limit.Date && convertedDate.Date < DateTime.Now)
+                    {
+                        journalToEdit.CreateDateTime = convertedDate;
+                        break;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid Date");
+                }
+            }
+
+            //Get user input for content. If blank, it remains unchanged
+            Console.Write("New Content (blank to leave unchanged): ");
+            string content = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(content))
+            {
+                journalToEdit.Content = content;
+            }
+
+            if(journalToEdit != null)
+            {
+                //vaildation complete update post
+                _journalRepository.Update(journalToEdit);
             }
         }
     }
