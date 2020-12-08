@@ -25,6 +25,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine("Journal Menu");
             Console.WriteLine(" 1) List Journals");
             Console.WriteLine(" 2) Add Journal");
+            Console.WriteLine(" 3) Remove Journal");
             Console.WriteLine(" 0) Go Back");
 
             Console.Write("> ");
@@ -34,12 +35,16 @@ namespace TabloidCLI.UserInterfaceManagers
             switch(choice)
             {
                 case "1":
-                    //Show all Jornal entries
+                    //Show all Journal entries
                     List(); 
                     return this;
                 case "2":
-                    //Add a Jounral entry 
+                    //Add a Journal entry 
                     Add();
+                    return this;
+                case "3":
+                    //Remove a Journal entry
+                    Remove();
                     return this;
                 case "0":
                     //Return to preivous menu
@@ -113,6 +118,51 @@ namespace TabloidCLI.UserInterfaceManagers
 
             //all validation passed addand break out of while loop
             _journalRepository.Insert(journal);
+        }
+
+        private Journal Choose(string prompt = null)
+        {
+            if(prompt == null)
+            {
+                prompt = "Please choose a Journal:";
+            }
+
+            Console.WriteLine(prompt);
+
+            List<Journal> journals = _journalRepository.GetAll();
+            //list all journal titles and selection number
+            for(int i = 0; i < journals.Count; i++)
+            {
+                Journal journal = journals[i];
+                Console.WriteLine($" {i+1}) {journal.Title}");
+            }
+
+            Console.Write("> ");
+            string input = Console.ReadLine();
+            //check for vaild selection
+                try
+                {
+                    int choice = int.Parse(input);
+                    return journals[choice - 1];
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Invalid Selection");
+                    return null;
+                }
+        }
+        private void Remove()
+        {
+            Journal journalToDelete = Choose("Which journal would you like to remove?");
+            //if there is no journal go to journal manager menu
+            if(journalToDelete == null)
+            {
+                Execute();
+            }
+            else
+            {
+                _journalRepository.Delete(journalToDelete.Id);
+            }
         }
     }
 }
