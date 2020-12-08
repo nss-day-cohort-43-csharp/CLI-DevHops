@@ -80,7 +80,7 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 Console.Write("Title: ");
                 userResponse = Console.ReadLine();
-                if (userResponse != "")
+                if (!string.IsNullOrWhiteSpace(userResponse))
                 {
                     post.Title = userResponse;
                     break;
@@ -91,7 +91,7 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 Console.Write("URL: ");
                 userResponse = Console.ReadLine();
-                if (userResponse != "")
+                if (!string.IsNullOrWhiteSpace(userResponse))
                 {
                     post.Url = userResponse;
                     break;
@@ -219,18 +219,49 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 postToEdit.Title = title;
             }
+
             Console.Write("New URL (blank to leave unchanged): ");
             string url = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(url))
             {
                 postToEdit.Url = url;
             }
+
             Console.Write("New publication date (blank to leave unchanged): ");
-            DateTime pubDate = Convert.ToDateTime(Console.ReadLine());
-            if (!DateTime.IsNullOrWhiteSpace(pubDate))
+            while (true)
             {
-                postToEdit.PublishDateTime = pubDate;
+                try
+                {
+                    string date = Console.ReadLine();
+                    //If user input blank, break out of loop
+                    if (string.IsNullOrWhiteSpace(date))
+                    {
+                        break;
+                    }
+
+                    DateTime newDate = Convert.ToDateTime(date);
+                    DateTime limit = new DateTime(1753, 1, 1);
+                    //Check if date is within SQL limits and not in the future
+                    if (newDate.Date > limit.Date && newDate.Date < DateTime.Now)
+                    {
+                        //Converts user input to DateTime type
+                        postToEdit.PublishDateTime = newDate;
+                        break;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                catch
+                {
+                    Console.WriteLine("Invalid Date");
+                }
             }
+
+            Console.Write("New author (blank to leave unchanged): ");
+
+            Console.Write("New blog (blank to leave unchanged): ");
 
             _postRepository.Update(postToEdit);
         }
