@@ -86,7 +86,7 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 Console.Write("Title: ");
                 title = Console.ReadLine();
-                if(title.Trim() != "")
+                if(title.Trim() != "" && title.Length <= 55)
                 {
                     break;
                 }
@@ -97,7 +97,7 @@ namespace TabloidCLI.UserInterfaceManagers
             {
                 Console.Write("URL: ");
                 url = Console.ReadLine();
-                if (url.Trim() != "")
+                if (url.Trim() != "" && url.Length <= 2000)
                 {
                     break;
                 }
@@ -171,9 +171,21 @@ namespace TabloidCLI.UserInterfaceManagers
                 // get the blog
                 Blog blog = _blogRepository.Get(id);
 
-                //prompt for the title
-                Console.Write("Title (blank to leave unchanged): ");
-                string title = Console.ReadLine();
+                // loop until a valid title is entered
+                string title = "";
+                while (true)
+                {
+                    //prompt for the title
+                    Console.Write("Title (blank to leave unchanged): ");
+                    title = Console.ReadLine();
+                    if(title.Length <= 55)
+                    {
+                        break;
+                    }
+
+                    Console.WriteLine("Title too long");
+                }
+                
 
                 // set the blogs title
                 if (!string.IsNullOrWhiteSpace(title))
@@ -181,12 +193,22 @@ namespace TabloidCLI.UserInterfaceManagers
                     blog.Title = title;
                 }
 
-                //prompt for the url
-                Console.Write("URL (blank to leave unchanged): ");
-                string url = Console.ReadLine();
+                string url = "";
+                while (true)
+                {
+                    //prompt for the url
+                    Console.Write("URL (blank to leave unchanged): ");
+                    url = Console.ReadLine();
+                    if(url.Length <= 2000)
+                    {
+                        break;
+                    }
+                    Console.WriteLine("URL too long");
+                }
+                
 
                 //set the blog's url
-                if (!string.IsNullOrWhiteSpace(url))
+                if (!string.IsNullOrWhiteSpace(url)  && url.Length <= 2000)
                 {
                     blog.Url = url;
                 }
