@@ -29,7 +29,10 @@ namespace TabloidCLI.UserInterfaceManagers
                 case "3": return new AuthorManager(this, CONNECTION_STRING);
                 case "4": return new PostManager(this, CONNECTION_STRING);
                 case "5": return new TagManager(this, CONNECTION_STRING);
-                case "6": return new SearchManager(this, CONNECTION_STRING);
+                case "6":
+                    Console.WriteLine("Under construction");
+                    return this;
+                //case "6": return new SearchManager(this, CONNECTION_STRING);
                 case "7": return new BackgroundManager(this);
                 case "0":
                     Console.WriteLine("Good bye");
