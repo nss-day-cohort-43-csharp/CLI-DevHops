@@ -90,9 +90,28 @@ namespace TabloidCLI
             }
         }
 
+        //Deletes tag from database
         public void Delete(int id)
         {
-            throw new NotImplementedException();
+            //Creates connection that closes after using
+            using (SqlConnection conn = Connection)
+            {
+                //Opens connection
+                conn.Open();
+                //Creates command that closes after using
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    //Assigns text for SQL query with brought in id
+                    cmd.CommandText = @"DELETE FROM PostTag WHERE TagId = @id;
+                                        DELETE FROM AuthorTag WHERE TagId = @id;
+                                        DELETE FROM BlogTag WHERE TagId = @id;
+                                        DELETE FROM Tag WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    //Executes command string and returns nothing
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public SearchResults<Author> SearchAuthors(string tagName)

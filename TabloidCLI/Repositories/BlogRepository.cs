@@ -152,9 +152,8 @@ namespace TabloidCLI.Repositories
                                         JOIN Post p on p.Id = pt.PostId
                                         WHERE p.BlogId = @id;
 
-                                        DELETE Post FROM Post p
-                                        JOIN Blog b on b.Id = p.BlogId
-                                        WHERE b.Id = @id;
+                                        DELETE FROM Post
+                                        WHERE BlogId = @id;
 
                                         DELETE BlogTag FROM BlogTag bt
                                         WHERE bt.BlogId = @id;
