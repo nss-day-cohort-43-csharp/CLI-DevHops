@@ -104,7 +104,62 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Edit()
         {
-            throw new NotImplementedException();
+            //gobal tag 
+            Tag selectedTag = null;
+
+            //get all tags to display them
+            List<Tag> tags = _tagRepo.GetAll();
+
+            Console.WriteLine("Please choose a tag");
+            for(int i = 0; i< tags.Count; i++)
+            {
+                Tag tag = tags[i];
+                Console.WriteLine($"{i + 1 }) {tag.Name}");
+            }
+            Console.Write("> ");
+            string input = Console.ReadLine();
+
+            //check if tag is a vaild selection
+            try
+            {
+                int inputToInt = int.Parse(input);
+                selectedTag = tags[inputToInt - 1];
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Selection");
+                Execute();
+            }
+
+            //check for blank tag or less than 55 chars
+            while(true)
+            {
+                Console.Write("New Tag (blank to leave unchanged): ");
+                string name = Console.ReadLine();
+                if(string.IsNullOrWhiteSpace(name))
+                {
+                    break;
+                }
+                else
+                {
+                    if(name.Length <= 55)
+                    {
+                        selectedTag.Name = name;
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Name must be less than 55 characters.");
+                    }
+                }
+            }
+
+            //check for null tag
+            if(selectedTag != null)
+            {
+                _tagRepo.Update(selectedTag);
+            }
+            
         }
 
         private void Remove()
