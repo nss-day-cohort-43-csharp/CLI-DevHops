@@ -46,7 +46,25 @@ namespace TabloidCLI
 
         public void Insert(Tag tag)
         {
-            throw new NotImplementedException();
+            // start a connection
+            using (SqlConnection conn = Connection)
+            {
+                //open the connection
+                conn.Open();
+
+                // use a command
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    // create the sql command
+                    cmd.CommandText = @"INSERT INTO Tag (Name)
+                                        VALUES (@name)
+                                        ";
+                    cmd.Parameters.AddWithValue("@name", tag.Name);
+
+                    // execute the insert command
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
 
         public void Update(Tag tag)
