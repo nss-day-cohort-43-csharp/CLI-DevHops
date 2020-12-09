@@ -164,7 +164,39 @@ namespace TabloidCLI.UserInterfaceManagers
 
         private void Remove()
         {
-            throw new NotImplementedException();
+            //Creates list of tags
+            List<Tag> tags = _tagRepo.GetAll();
+            //Declares selectedTag variable and sets to null
+            Tag selectedTag = null;
+
+            //Shows user all tags to choose from
+            Console.WriteLine("Choose tag to delete");
+            for (int i = 0; i < tags.Count; i++)
+            {
+                Tag tag = tags[i];
+                Console.WriteLine($" {i + 1}) {tag.Name}");
+            }
+            Console.Write("> ");
+
+            //Gets user input
+            string input = Console.ReadLine();
+            try
+            {
+                //Tries to parse input to int 
+                int inputToInt = int.Parse(input);
+                //Assigns valid choice to selectedInput
+                selectedTag = tags[inputToInt - 1];
+            }
+            catch
+            {
+                Console.WriteLine("Invalid Selection");
+            }
+
+            //If valid choice was selected, deletes said choice
+            if (selectedTag != null)
+            {
+                _tagRepo.Delete(selectedTag.Id);
+            }
         }
     }
 }

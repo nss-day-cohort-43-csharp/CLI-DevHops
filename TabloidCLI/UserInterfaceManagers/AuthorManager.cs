@@ -161,7 +161,7 @@ namespace TabloidCLI.UserInterfaceManagers
             Console.WriteLine();
             while (true)
             {
-                Console.Write("New first name (blank to leave unchanged: ");
+                Console.Write("New first name (blank to leave unchanged): ");
                 string firstName = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(firstName))
                 {
@@ -183,7 +183,7 @@ namespace TabloidCLI.UserInterfaceManagers
 
             while (true)
             {
-                Console.Write("New last name (blank to leave unchanged: ");
+                Console.Write("New last name (blank to leave unchanged): ");
                 string lastName = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(lastName))
                 {
@@ -203,7 +203,7 @@ namespace TabloidCLI.UserInterfaceManagers
                 }
             }
             
-            Console.Write("New bio (blank to leave unchanged: ");
+            Console.Write("New bio (blank to leave unchanged): ");
             string bio = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(bio))
             {
