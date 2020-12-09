@@ -1,27 +1,21 @@
 # Tabloid CLI
 
-## The Story
+TabloidCLI is a command line interface that helps people manage their favorite blogs, authors, blog posts, journals, and tags.  People can add posts to blogs and add notes to posts.  This CLI was built by Rick Blake, Cornelia Johnson, and Brady Logan.
 
-"Hey, let's start a company," you say.
+![Tabloid Example](imgs/devhops.gif)
 
-"Ok. Let's do it. What should our company do?"
+## Technologies & Skills Used:
+C#/.NET Core, Visual Studio, SQL, SQL Server, ADO.NET, LINQ, Git, and GitHub
 
-"Well..." you begin, "what do people need? What will they find valuable?"
+## Setup: Follow these steps
+1. Clone this repository
+2. `cd` into the new directory "cli-devhops"
+3. Open in visual studio
+4. Run sql query to create database (make sure to connect to local server)
+5. Make sure you are in solution view and run the program
 
-"I know I always need help keeping things organized."
+## Entity Relationship Diagram
+![erd](imgs/DevHopsERD.png)
 
-"Yeah," you say, pondering the idea. "Organization. That's good. What should we organize? ...I know: Blog Posts!"
 
-"Great idea!"
 
-"We'll make millions!"
-
----
-
-## The Tabloid Proof of Concept
-
-Our new business will create a software product to allow people save info about favorite blog posts, authors and blogs.
-
-In order to test the new business idea, we'll create a [Proof of Concept (POC)](https://en.wikipedia.org/wiki/Proof_of_concept#Software_development). This POC will be a simplified implementation of the idea that will be used to test the business idea to ensure that customers would find it valuable, and also to allow the team to get a handle on the concept. After we complete the POC we will use it to evaluate our business idea and determine if we need to pivot (change direction) toward another idea.
-
-For our POC, we will build a command line app in C# and save our data in SQL Server.
