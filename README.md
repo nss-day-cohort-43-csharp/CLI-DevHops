@@ -15,7 +15,7 @@ C#/.NET Core, Visual Studio, SQL, SQL Server, ADO.NET, LINQ, Git, and GitHub
 5. Make sure you are in solution view and run the program
 
 ## Entity Relationship Diagram
-![erd](imgs/DevHopsErd.png)
+![erd](imgs/DevHopsERD.png)
 
 
 
